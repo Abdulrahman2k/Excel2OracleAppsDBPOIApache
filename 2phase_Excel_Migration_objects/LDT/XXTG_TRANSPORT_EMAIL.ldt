@@ -1,0 +1,73 @@
+# $Header$
+
+# dbdrv: exec fnd bin FNDLOAD bin &phase=daa+51 checkfile:~PROD:~PATH:~FILE &ui_apps 0 Y UPLOAD @FND:patch/115/import/aflvmlu.lct @~PROD:~PATH/~FILE
+LANGUAGE = "US"
+LDRCONFIG = "aflvmlu.lct 120.0.12010000.1"
+
+#Source Database TGDEV
+
+#RELEASE_NAME 12.1.3
+
+# -- Begin Entity Definitions -- 
+
+DEFINE FND_LOOKUP_TYPE
+  KEY   VIEW_APPSNAME                   VARCHAR2(50)
+  KEY   LOOKUP_TYPE                     VARCHAR2(30)
+  CTX   APPLICATION_SHORT_NAME          VARCHAR2(50)
+  BASE  CUSTOMIZATION_LEVEL             VARCHAR2(1)
+  CTX   OWNER                           VARCHAR2(4000)
+  BASE  LAST_UPDATE_DATE                VARCHAR2(10)
+  TRANS MEANING                         VARCHAR2(80)
+  TRANS DESCRIPTION                     VARCHAR2(240)
+
+  DEFINE FND_LOOKUP_VALUE
+    KEY   LOOKUP_CODE                     VARCHAR2(30)
+    BASE  ENABLED_FLAG                    VARCHAR2(1)
+    BASE  START_DATE_ACTIVE               VARCHAR2(10)
+    BASE  END_DATE_ACTIVE                 VARCHAR2(10)
+    BASE  TERRITORY_CODE                  VARCHAR2(2)
+    BASE  TAG                             VARCHAR2(150)
+    BASE  ATTRIBUTE_CATEGORY              VARCHAR2(30)
+    BASE  ATTRIBUTE1                      VARCHAR2(150)
+    BASE  ATTRIBUTE2                      VARCHAR2(150)
+    BASE  ATTRIBUTE3                      VARCHAR2(150)
+    BASE  ATTRIBUTE4                      VARCHAR2(150)
+    BASE  ATTRIBUTE5                      VARCHAR2(150)
+    BASE  ATTRIBUTE6                      VARCHAR2(150)
+    BASE  ATTRIBUTE7                      VARCHAR2(150)
+    BASE  ATTRIBUTE8                      VARCHAR2(150)
+    BASE  ATTRIBUTE9                      VARCHAR2(150)
+    BASE  ATTRIBUTE10                     VARCHAR2(150)
+    BASE  ATTRIBUTE11                     VARCHAR2(150)
+    BASE  ATTRIBUTE12                     VARCHAR2(150)
+    BASE  ATTRIBUTE13                     VARCHAR2(150)
+    BASE  ATTRIBUTE14                     VARCHAR2(150)
+    BASE  ATTRIBUTE15                     VARCHAR2(150)
+    CTX   OWNER                           VARCHAR2(4000)
+    BASE  LAST_UPDATE_DATE                VARCHAR2(10)
+    TRANS MEANING                         VARCHAR2(80)
+    TRANS DESCRIPTION                     VARCHAR2(240)
+  END FND_LOOKUP_VALUE
+END FND_LOOKUP_TYPE
+
+# -- End Entity Definitions -- 
+
+
+BEGIN FND_LOOKUP_TYPE "AU" "TG_TRANSPORT_EMAIL"
+  APPLICATION_SHORT_NAME = "TGCUST"
+  CUSTOMIZATION_LEVEL = "U"
+  OWNER = "TG178627"
+  LAST_UPDATE_DATE = "2017/08/21"
+  MEANING = "TG_TRANSPORT_EMAIL"
+
+  BEGIN FND_LOOKUP_VALUE "1"
+    ENABLED_FLAG = "Y"
+    START_DATE_ACTIVE = "2017/08/21"
+    OWNER = "TG178627"
+    LAST_UPDATE_DATE = "2017/08/22"
+    MEANING = "tg.transport@transguardgroup.com"
+    DESCRIPTION = "tg.transport@transguardgroup.com"
+  END FND_LOOKUP_VALUE
+  
+END FND_LOOKUP_TYPE
+

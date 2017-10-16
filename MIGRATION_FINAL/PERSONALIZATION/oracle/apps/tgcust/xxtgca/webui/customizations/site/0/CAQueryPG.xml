@@ -1,0 +1,12 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<customization xmlns="http://xmlns.oracle.com/jrad" version="9.0.6.0.0_55" xml:lang="en-US" customizes="/oracle/apps/tgcust/xxtgca/webui/CAQueryPG" xmlns:oa="http://xmlns.oracle.com/oa">
+   <modifications>
+      <move element="btnPrint" after="revalidate"/>
+      <move element="apply" after="btnPrint"/>
+      <move element="savesubmitbutton" after="apply"/>
+      <move element="cancel" after="savesubmitbutton"/>
+      <insert after="cancel">
+         <oa:button id="XXTG_VIEW_REQUEST_BUTTON" accessKey="&amp;VIEW CONCURRENT REQUEST" adminCustomizable="true" comment="VIEW CONCURRENT REQUEST" dataType="VARCHAR2" disabled="false" hAlign="start" invokeFunc="XXTG_CA_VIEW_REQUEST_PAGE" popupEnabled="false" popupRenderEvent="onClick" prompt="View Concurrent Requests" rendered="true" scope="." serverUnvalidated="false" shortDesc="VIEW CONCURRENT REQUEST" targetFrame="_blank" warnAboutChanges="true" xmlns:oa="http://xmlns.oracle.com/oa"/>
+      </insert>
+   </modifications>
+</customization>

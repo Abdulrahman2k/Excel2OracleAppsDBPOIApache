@@ -1,0 +1,70 @@
+# $Header$
+
+# dbdrv: exec fnd bin FNDLOAD bin &phase=dat checkfile:~PROD:~PATH:~FILE &ui_apps 0 Y UPLOAD @AME:patch/115/import/amescvar.lct @~PROD:~PATH/~FILE
+LANGUAGE = "US"
+LDRCONFIG = "amescvar.lct 120.3.12010000.2"
+
+#Source Database TRAIN
+
+#RELEASE_NAME 12.1.3
+
+# -- Begin Entity Definitions -- 
+
+DEFINE AME_CALLING_APPS
+  KEY   APPLICATION_SHORT_NAME          VARCHAR2(50)
+  KEY   TRANSACTION_TYPE_ID             VARCHAR2(50)
+  TRANS APPLICATION_NAME                VARCHAR2(720)
+  BASE  BASE_APPLICATION_NAME           VARCHAR2(240)
+  BASE  LINE_ITEM_ID_QUERY              VARCHAR2(4000)
+  BASE  LAST_UPDATE_DATE                VARCHAR2(19)
+  CTX   OWNER                           VARCHAR2(100)
+
+  DEFINE AME_APP_CONFIG_VARS
+    KEY   VARIABLE_NAME                   VARCHAR2(50)
+    KEY   APPLICATION_SHORT_NAME          VARCHAR2(50)
+    KEY   TRANSACTION_TYPE_ID             VARCHAR2(50)
+    TRANS USER_CONFIG_VAR_NAME            VARCHAR2(150)
+    BASE  VARIABLE_VALUE                  VARCHAR2(200)
+    TRANS DESCRIPTION                     VARCHAR2(300)
+    BASE  LAST_UPDATE_DATE                VARCHAR2(19)
+    CTX   OWNER                           VARCHAR2(100)
+  END AME_APP_CONFIG_VARS
+END AME_CALLING_APPS
+
+# -- End Entity Definitions -- 
+
+
+BEGIN AME_CALLING_APPS "TGCUST" "XXTGCA"
+  APPLICATION_NAME = "XXTG Contracts Automation Workflow"
+  BASE_APPLICATION_NAME = "XXTG Contracts Automation Workflow"
+  LAST_UPDATE_DATE = "2017/04/04 10:46:21"
+  OWNER = "TG178627"
+
+  BEGIN AME_APP_CONFIG_VARS "allowAllApproverTypes" "TGCUST" "XXTGCA"
+    USER_CONFIG_VAR_NAME = "Allow All Approver Types"
+    VARIABLE_VALUE = "yes"
+    DESCRIPTION = "Whether Approvals Management allows all approver types"
+    LAST_UPDATE_DATE = "2017/04/04 10:48:59"
+    OWNER = "TG178627"
+  END AME_APP_CONFIG_VARS
+  
+  BEGIN AME_APP_CONFIG_VARS "allowAllItemClassRules" "TGCUST" "XXTGCA"
+    USER_CONFIG_VAR_NAME = "Allow All Item Class Rules"
+    VARIABLE_VALUE = "yes"
+    DESCRIPTION =
+ "Whether Approvals Management allows to create subordinate item class rules"
+    LAST_UPDATE_DATE = "2017/04/04 10:48:59"
+    OWNER = "TG178627"
+  END AME_APP_CONFIG_VARS
+  
+  BEGIN AME_APP_CONFIG_VARS "allowFyiNotifications" "TGCUST" "XXTGCA"
+    USER_CONFIG_VAR_NAME = "Allow For Your Information Notifications"
+    VARIABLE_VALUE = "yes"
+    DESCRIPTION =
+ "Whether Approvals Management allows For Your Information notifications"
+    LAST_UPDATE_DATE = "2017/04/04 10:48:59"
+    OWNER = "TG178627"
+  END AME_APP_CONFIG_VARS
+  
+END AME_CALLING_APPS
+

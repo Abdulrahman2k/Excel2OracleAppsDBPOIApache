@@ -1,0 +1,281 @@
+# $Header$
+
+# dbdrv: exec fnd bin FNDLOAD bin &phase=daa+51 checkfile:~PROD:~PATH:~FILE &ui_apps 0 Y UPLOAD @FND:patch/115/import/afsload.lct @~PROD:~PATH/~FILE
+LANGUAGE = "US"
+LDRCONFIG = "afsload.lct 120.2.12010000.3"
+
+#Source Database TRAIN
+
+#RELEASE_NAME 12.1.3
+
+# -- Begin Entity Definitions -- 
+
+DEFINE MENU
+  KEY   MENU_NAME                       VARCHAR2(4000)
+  BASE  TYPE                            VARCHAR2(30)
+  BASE  LAST_UPDATE_DATE                VARCHAR2(10)
+  TRANS USER_MENU_NAME                  VARCHAR2(80)
+  TRANS DESCRIPTION                     VARCHAR2(240)
+  CTX   OWNER                           VARCHAR2(4000)
+
+  DEFINE ENTRY
+    TRANS PROMPT                          VARCHAR2(60)
+    TRANS DESCRIPTION                     VARCHAR2(240)
+    BASE  GRANT_FLAG                      VARCHAR2(1)
+    BASE  LAST_UPDATE_DATE                VARCHAR2(10)
+    CTX   SUBMENU                         REFERENCES MENU
+    CTX   FUNCTION                        REFERENCES FUNCTION
+    CTX   OWNER                           VARCHAR2(4000)
+  END ENTRY
+END MENU
+
+DEFINE FUNCTION
+  KEY   FUNCTION_NAME                   VARCHAR2(4000)
+  BASE  FORM                            REFERENCES FORM
+  BASE  TYPE                            VARCHAR2(30)
+  BASE  PARAMETERS                      VARCHAR2(4000)
+  BASE  WEB_HOST_NAME                   VARCHAR2(4000)
+  BASE  WEB_AGENT_NAME                  VARCHAR2(4000)
+  BASE  WEB_HTML_CALL                   VARCHAR2(4000)
+  BASE  WEB_ENCRYPT_PARAMETERS          VARCHAR2(4000)
+  BASE  WEB_SECURED                     VARCHAR2(4000)
+  BASE  WEB_ICON                        VARCHAR2(4000)
+  BASE  FUNC_OBJECT                     REFERENCES OBJECT
+  BASE  OBJECT_NAME                     REFERENCES OBJECT
+  BASE  REGION_APPLICATION_SHORT_NAME   VARCHAR2(50)
+  BASE  REGION_APPLICATION_NAME         VARCHAR2(50)
+  BASE  REGION_CODE                     VARCHAR2(4000)
+  BASE  LAST_UPDATE_DATE                VARCHAR2(10)
+  BASE  MAINTENANCE_MODE_SUPPORT        VARCHAR2(8)
+  BASE  CONTEXT_DEPENDENCE              VARCHAR2(8)
+  BASE  JRAD_REF_PATH                   VARCHAR2(4000)
+  TRANS USER_FUNCTION_NAME              VARCHAR2(80)
+  TRANS DESCRIPTION                     VARCHAR2(240)
+  CTX   OWNER                           VARCHAR2(4000)
+END FUNCTION
+
+DEFINE OBJECT
+  KEY   OBJ_NAME                        VARCHAR2(4000)
+  BASE  APPLICATION_SHORT_NAME          VARCHAR2(50)
+  BASE  DATABASE_OBJECT_NAME            VARCHAR2(30)
+  BASE  PK1_COLUMN_NAME                 VARCHAR2(30)
+  BASE  PK2_COLUMN_NAME                 VARCHAR2(30)
+  BASE  PK3_COLUMN_NAME                 VARCHAR2(30)
+  BASE  PK4_COLUMN_NAME                 VARCHAR2(30)
+  BASE  PK5_COLUMN_NAME                 VARCHAR2(30)
+  BASE  PK1_COLUMN_TYPE                 VARCHAR2(8)
+  BASE  PK2_COLUMN_TYPE                 VARCHAR2(8)
+  BASE  PK3_COLUMN_TYPE                 VARCHAR2(8)
+  BASE  PK4_COLUMN_TYPE                 VARCHAR2(8)
+  BASE  PK5_COLUMN_TYPE                 VARCHAR2(8)
+  BASE  LAST_UPDATE_DATE                VARCHAR2(10)
+  TRANS DISPLAY_NAME                    VARCHAR2(240)
+  TRANS DESCRIPTION                     VARCHAR2(2000)
+  CTX   OWNER                           VARCHAR2(4000)
+END OBJECT
+
+DEFINE FORM
+  KEY   APPLICATION_SHORT_NAME          VARCHAR2(4000)
+  KEY   FORM_NAME                       VARCHAR2(4000)
+  BASE  AUDIT_ENABLED_FLAG              VARCHAR2(1)
+  BASE  LAST_UPDATE_DATE                VARCHAR2(10)
+  TRANS USER_FORM_NAME                  VARCHAR2(80)
+  TRANS DESCRIPTION                     VARCHAR2(240)
+  CTX   OWNER                           VARCHAR2(4000)
+END FORM
+
+# -- End Entity Definitions -- 
+
+
+BEGIN MENU "*NULL*"
+  LAST_UPDATE_DATE = "2008/11/14"
+  USER_MENU_NAME = "*NULL*"
+  OWNER = "ORACLE12.1.3"
+
+END MENU
+
+BEGIN FUNCTION "XXTG_CA_IMPORT"
+  FORM = "" "*NULL*"
+  TYPE = "JSP"
+  PARAMETERS = "*NULL*"
+  WEB_HOST_NAME = "*NULL*"
+  WEB_AGENT_NAME = "*NULL*"
+  WEB_HTML_CALL = "OA.jsp?page=/oracle/apps/tgcust/xxtgca/webui/ImportxlsPG"
+  WEB_ENCRYPT_PARAMETERS = "N"
+  WEB_SECURED = "N"
+  WEB_ICON = "*NULL*"
+  FUNC_OBJECT = "*NULL*"
+  OBJECT_NAME = "*NULL*"
+  REGION_CODE = "*NULL*"
+  LAST_UPDATE_DATE = "2017/04/04"
+  MAINTENANCE_MODE_SUPPORT = "NONE"
+  CONTEXT_DEPENDENCE = "RESP"
+  JRAD_REF_PATH = "*NULL*"
+  USER_FUNCTION_NAME = "Contracts Automation Import Form"
+  OWNER = "TG178627"
+END FUNCTION
+
+BEGIN FUNCTION "XXTG_CA_IMPORT_VALIDATION"
+  FORM = "" "*NULL*"
+  TYPE = "JSP"
+  PARAMETERS = "*NULL*"
+  WEB_HOST_NAME = "*NULL*"
+  WEB_AGENT_NAME = "*NULL*"
+  WEB_HTML_CALL = "OA.jsp?page=/oracle/apps/tgcust/xxtgca/webui/CAQueryPG"
+  WEB_ENCRYPT_PARAMETERS = "N"
+  WEB_SECURED = "N"
+  WEB_ICON = "*NULL*"
+  FUNC_OBJECT = "*NULL*"
+  OBJECT_NAME = "*NULL*"
+  REGION_CODE = "*NULL*"
+  LAST_UPDATE_DATE = "2017/04/04"
+  MAINTENANCE_MODE_SUPPORT = "NONE"
+  CONTEXT_DEPENDENCE = "RESP"
+  JRAD_REF_PATH = "*NULL*"
+  USER_FUNCTION_NAME = "Contracts Automation Import Validation Form"
+  OWNER = "TG178627"
+END FUNCTION
+
+BEGIN FUNCTION "XXTG_CA_QUERY"
+  FORM = "" "*NULL*"
+  TYPE = "JSP"
+  PARAMETERS = "*NULL*"
+  WEB_HOST_NAME = "*NULL*"
+  WEB_AGENT_NAME = "*NULL*"
+  WEB_HTML_CALL = "OA.jsp?page=/oracle/apps/tgcust/ca/webui/ContractsSearchPG"
+  WEB_ENCRYPT_PARAMETERS = "N"
+  WEB_SECURED = "N"
+  WEB_ICON = "*NULL*"
+  FUNC_OBJECT = "*NULL*"
+  OBJECT_NAME = "*NULL*"
+  REGION_CODE = "*NULL*"
+  LAST_UPDATE_DATE = "2016/10/24"
+  MAINTENANCE_MODE_SUPPORT = "NONE"
+  CONTEXT_DEPENDENCE = "RESP"
+  JRAD_REF_PATH = "*NULL*"
+  USER_FUNCTION_NAME = "Contracts Amendment Query Form"
+  OWNER = "TG178627"
+END FUNCTION
+
+BEGIN FUNCTION "XXTG_CA_NOTIFICATION"
+  FORM = "" "*NULL*"
+  TYPE = "JSP"
+  PARAMETERS = "*NULL*"
+  WEB_HOST_NAME = "*NULL*"
+  WEB_AGENT_NAME = "*NULL*"
+  WEB_HTML_CALL = "OA.jsp?page=/oracle/apps/tgcust/xxtgca/webui/CAQueryPG"
+  WEB_ENCRYPT_PARAMETERS = "N"
+  WEB_SECURED = "N"
+  WEB_ICON = "*NULL*"
+  FUNC_OBJECT = "*NULL*"
+  OBJECT_NAME = "*NULL*"
+  REGION_CODE = "*NULL*"
+  LAST_UPDATE_DATE = "2017/04/26"
+  MAINTENANCE_MODE_SUPPORT = "NONE"
+  CONTEXT_DEPENDENCE = "RESP"
+  JRAD_REF_PATH = "*NULL*"
+  USER_FUNCTION_NAME = "Contracts Automation Validation Notification"
+  DESCRIPTION =
+ "This is Same Form as \"Contracts Automation Import Validation Form\" and with parameter P_READ_ONLY = Y called from workflow XXTG_AME_APPROVAL_PKG.GET_WF_HTML_URL"
+  OWNER = "TG178627"
+END FUNCTION
+
+BEGIN FUNCTION "XXTG_CA_REPORTS_PAGE"
+  FORM = "" "*NULL*"
+  TYPE = "JSP"
+  PARAMETERS = "*NULL*"
+  WEB_HOST_NAME = "*NULL*"
+  WEB_AGENT_NAME = "*NULL*"
+  WEB_HTML_CALL =
+ "OA.jsp?akRegionApplicationId=0&akRegionCode=FNDCPPROGRAMPAGE&scheduleRegion=Hide&notifyRegion=Hide&printRegion=Hide"
+  WEB_ENCRYPT_PARAMETERS = "N"
+  WEB_SECURED = "N"
+  WEB_ICON = "*NULL*"
+  FUNC_OBJECT = "*NULL*"
+  OBJECT_NAME = "*NULL*"
+  REGION_CODE = "*NULL*"
+  LAST_UPDATE_DATE = "2017/04/27"
+  MAINTENANCE_MODE_SUPPORT = "NONE"
+  CONTEXT_DEPENDENCE = "RESP"
+  JRAD_REF_PATH = "*NULL*"
+  USER_FUNCTION_NAME = "XXTG Custom Page to run reports"
+  DESCRIPTION = "XXTG Custom Page to run reports"
+  OWNER = "TG178627"
+END FUNCTION
+
+BEGIN FUNCTION "XXTG_CA_VIEW_REQUEST_PAGE"
+  FORM = "" "*NULL*"
+  TYPE = "JSP"
+  PARAMETERS = "*NULL*"
+  WEB_HOST_NAME = "*NULL*"
+  WEB_AGENT_NAME = "*NULL*"
+  WEB_HTML_CALL =
+ "OA.jsp?akRegionApplicationId=0&akRegionCode=FNDCPREQUESTVIEWPAGE&scheduleRegion=Hide&notifyRegion=Hide&printRegion=Hide"
+  WEB_ENCRYPT_PARAMETERS = "N"
+  WEB_SECURED = "N"
+  WEB_ICON = "*NULL*"
+  FUNC_OBJECT = "*NULL*"
+  OBJECT_NAME = "*NULL*"
+  REGION_CODE = "*NULL*"
+  LAST_UPDATE_DATE = "2017/07/11"
+  MAINTENANCE_MODE_SUPPORT = "NONE"
+  CONTEXT_DEPENDENCE = "RESP"
+  JRAD_REF_PATH = "*NULL*"
+  USER_FUNCTION_NAME = "Custom Link for Seeded Page to View concurrent programs"
+  DESCRIPTION = "Custom Link for Seeded Page to View concurrent programs"
+  OWNER = "TG178627"
+END FUNCTION
+
+BEGIN MENU "XXTG_DEPLOYMENT"
+  TYPE = "STANDARD"
+  LAST_UPDATE_DATE = "2017/04/19"
+  USER_MENU_NAME = "XXTG_DEPLOYMENT"
+  OWNER = "TG178627"
+
+  BEGIN ENTRY
+    PROMPT = "Deployment Import"
+    GRANT_FLAG = "Y"
+    LAST_UPDATE_DATE = "2017/04/19"
+    SUBMENU = "*NULL*"
+    FUNCTION = "XXTG_CA_IMPORT"
+    OWNER = "TG178627"
+  END ENTRY
+  
+  BEGIN ENTRY
+    PROMPT = "Deployment Validation"
+    GRANT_FLAG = "Y"
+    LAST_UPDATE_DATE = "2017/04/19"
+    SUBMENU = "*NULL*"
+    FUNCTION = "XXTG_CA_IMPORT_VALIDATION"
+    OWNER = "TG178627"
+  END ENTRY
+  
+  BEGIN ENTRY
+    PROMPT = "*NULL*"
+    GRANT_FLAG = "Y"
+    LAST_UPDATE_DATE = "2017/05/21"
+    SUBMENU = "*NULL*"
+    FUNCTION = "XXTG_CA_QUERY"
+    OWNER = "TG178627"
+  END ENTRY
+  
+  BEGIN ENTRY
+    PROMPT = "*NULL*"
+    GRANT_FLAG = "Y"
+    LAST_UPDATE_DATE = "2017/04/26"
+    SUBMENU = "*NULL*"
+    FUNCTION = "XXTG_CA_NOTIFICATION"
+    OWNER = "TG178627"
+  END ENTRY
+  
+  BEGIN ENTRY
+    PROMPT = "Run Reports"
+    GRANT_FLAG = "Y"
+    LAST_UPDATE_DATE = "2017/04/27"
+    SUBMENU = "*NULL*"
+    FUNCTION = "XXTG_CA_REPORTS_PAGE"
+    OWNER = "TG178627"
+  END ENTRY
+  
+END MENU
+

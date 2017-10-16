@@ -1,0 +1,188 @@
+set define off;
+CREATE OR REPLACE package XXTG_AME_START_APPR_PKG is
+ 
+       procedure startApprovalWF(errbuff out varchar2,
+                                 retcode out number,
+                                 p_order_number in number,
+                                 p_hold_type in varchar2 ,
+                                 p_comment in varchar2
+                                ) ;
+--       function getTimeoutDay (p_header_id in number) return number ;
+       procedure insertLog (itemtype IN VARCHAR2,
+                            itemkey IN VARCHAR2,
+                            p_log in varchar2
+                            ) ;
+       
+end XXTG_AME_START_APPR_PKG ;
+/
+
+
+CREATE OR REPLACE package BODY      XXTG_AME_START_APPR_PKG is 
+
+	/*This procedure starts our Approval WF via setting AME transaction types and
+	required information (this can be also called as Concurrent Program)*/
+	procedure startApprovalWF(errbuff out varchar2,
+							  retcode out number,
+							  p_order_number in number,  
+							  p_hold_type in varchar2, 
+							  p_comment in varchar2
+							 ) is
+--	 cursor c1 is
+--		 select oh.header_id ,
+--				oh.order_number 
+--		   from oe_order_holds_all ha ,
+--				oe_order_headers_all oh
+--		 where ha.header_id = oh.header_id 
+--		   and oh.ORDER_NUMBER= p_order_number
+--		   and ha.released_flag = 'N';
+
+	 itemkey varchar2(240);
+	 itemtype varchar2(8);
+	 created_by_user_name varchar2(250);
+	 l_seq number ;
+	 is_entered boolean := false ;
+   l_document_id 		 CLOB;
+	 begin
+
+		 select XXTG_CA_HEADER_ID_S.currval into l_seq from dual ;
+		 itemkey := l_seq;
+		 itemtype :='XXTGCA'; 
+		 
+--		 for crec in c1 loop
+
+			 insertLog (itemtype ,
+						itemkey ,
+						'startApprovalWF procedure has been called');
+
+			 wf_engine.createprocess (itemtype, 
+			 itemkey ,
+			 'MAIN_PROCESS'); 
+
+			 select user_name into created_by_user_name
+		   	   from fnd_user
+			  where user_id = fnd_profile.value('USER_ID');
+       l_document_id := 'PLSQL:XXTG_AME_APPROVAL_PKG.CREATE_WF_DOC/' || itemkey;
+--Setting Value for document type attribute
+--
+       wf_engine.setitemattrtext (itemtype      => itemtype,
+                              itemkey       => itemkey,
+                              aname         => 'XXTG_BODY',
+                              avalue        => l_document_id
+                             ); 
+			 wf_engine.setItemAttrText(itemtype =>itemtype,
+			 itemkey =>itemkey,
+			 aname =>'CREATED_BY_USER_NAME',
+			 avalue=>created_by_user_name) ;
+
+--			 wf_engine.setItemAttrText(itemtype =>itemtype,
+--			 itemkey =>itemkey,
+--			 aname =>'HOLD_TYPE',
+--			 avalue=>p_hold_type) ;
+
+			 wf_engine.setItemAttrText(itemtype =>itemtype,
+			 itemkey =>itemkey,
+			 aname =>'AME_TRANSACTION_TYPE',
+			 avalue=>'XXTGCA') ;
+
+			 wf_engine.setItemAttrNumber(itemtype =>itemtype,
+			 itemkey =>itemkey,
+			 aname =>'AME_TRANSACTION_ID',
+			 avalue=>l_seq) ;
+
+			 wf_engine.setItemAttrNumber(itemtype =>itemtype,
+			 itemkey =>itemkey,
+			 aname =>'HEADER_ID',
+			 avalue=>l_seq
+			 ) ;
+
+--			 wf_engine.setItemAttrNumber(itemtype =>itemtype,
+--			 itemkey =>itemkey,
+--			 aname =>'ORDER_NUMBER',
+--			 avalue=>crec.order_number
+--			 ) ;
+--
+--			 wf_engine.setItemAttrText(itemtype =>itemtype,
+--			 itemkey =>itemkey,
+--			 aname =>'START_COMMENT',
+--			 avalue=>p_comment) ;
+--
+--			 wf_engine.setItemAttrText(itemtype =>itemtype,
+--			 itemkey =>itemkey,
+--			 aname =>'NUMBER_OF_WAIT_DAYS',
+--			 avalue=>getTimeoutDay(crec.header_id )) ;
+
+			 wf_engine.setitemattrtext (itemtype,  
+			 itemkey,
+			 'NTF_HOLD_CONTENT_DOC',
+			 'JSP:/OA_HTML/OA.jsp?page=/oracle/apps/xxtgca/webui/XxxlAmeNtfRNnull='||l_seq);
+
+			 wf_engine.startprocess (itemtype, 
+			 itemkey);
+
+--			 is_entered := true ;
+--
+----		 exit;
+----		 end loop;
+--
+--		 if (not is_entered) then
+
+			 insertLog (itemtype ,
+			 itemkey ,
+			 'startApprovalWF no record has been found' );
+			 fnd_file.put_line (fnd_file.LOG,'startApprovalWF no record has been found');
+			 retcode := 2; --error
+			 RETURN;
+
+--		 end if ;
+
+	end startApprovalWF ;
+	
+	/*This function defines our custom rules for timeout function in our AME WF*/
+--	function getTimeoutDay (p_header_id in number) return number is
+--    l_control number;
+--    begin
+--
+--        begin
+--
+--            select 1 into l_control from oe_transaction_types_tl ott,
+--                                         oe_order_headers_all ooh
+--                                   where language='US'
+--                                     and ott.name like 'Your Custom Transaction Type'
+--                                     and ooh.header_id=p_header_id
+--                                     and ott.transaction_type_id= ooh.order_type_id;
+--
+--            /*Your Custom Transaction Type Order if they wouldn't order until next day at 5:00pm approval process cancel*/
+--            return  round( ((24-to_char(sysdate,'HH24') ))+ 17 )*60;  --dakika
+--          --round( ((24-to_char(sysdate,'HH24') )/24)+ 17/24 , 2)  ;
+--
+--        exception when others then
+--		
+--			/*If it is not approved in 5 days it will be cancelled */
+--            return 5*24*60  ;  --dakika
+--
+--        end ;
+--
+--
+--    end ;
+	
+	procedure insertLog (itemtype IN VARCHAR2,
+                         itemkey IN VARCHAR2,
+                         p_log in varchar2
+                        ) is
+
+    PRAGMA AUTONOMOUS_TRANSACTION;
+    l_rec TGCUSTOM.XXTG_WF_LOG%rowtype ;
+    begin
+
+       l_rec.item_type:=itemtype  ;
+       l_rec.item_key:=itemkey ;
+       l_rec.xlog:=p_log  ;
+       l_rec.object_name:='XXTG_AME_START_APPR_PKG' ;
+       l_rec.trnx_Date :=sysdate ;
+       insert into TGCUSTOM.XXTG_WF_LOG VALUES l_rec ;
+       commit;
+
+    end ; 
+
+END XXTG_AME_START_APPR_PKG;
+/

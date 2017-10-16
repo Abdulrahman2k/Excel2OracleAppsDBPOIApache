@@ -1,0 +1,10 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<customization xmlns="http://xmlns.oracle.com/jrad" version="9.0.6.0.0_55" xml:lang="en-US" customizes="/oracle/apps/tgcust/xxtgca/webui/CAQueryPG" xmlns:user="http://xmlns.oracle.com/jrad/user" user:responsibilityKey="xxtg_deployment_aviation" user:responsibilityAppShortName="PER">
+   <modifications>
+      <move element="XXTG_VIEW_REQUEST_BUTTON" before="revalidate"/>
+      <move element="btnPrint" after="revalidate"/>
+      <move element="apply" after="btnPrint"/>
+      <move element="savesubmitbutton" after="apply"/>
+      <move element="cancel" after="savesubmitbutton"/>
+   </modifications>
+</customization>

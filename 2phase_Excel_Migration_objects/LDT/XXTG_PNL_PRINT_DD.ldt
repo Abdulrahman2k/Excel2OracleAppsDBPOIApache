@@ -1,0 +1,114 @@
+# $Header$
+
+# dbdrv: exec fnd bin FNDLOAD bin &phase=dat checkfile:~PROD:~PATH:~FILE &ui_apps 0 Y UPLOAD @XDO:patch/115/import/xdotmpl.lct @~PROD:~PATH/~FILE
+LANGUAGE = "US"
+LDRCONFIG = "xdotmpl.lct 120.5.12010000.3"
+
+#Source Database TGDEV
+
+#RELEASE_NAME 12.1.3
+
+# -- Begin Entity Definitions -- 
+
+DEFINE XDO_DS_DEFINITIONS
+  KEY   APPLICATION_SHORT_NAME          VARCHAR2(50)
+  KEY   DATA_SOURCE_CODE                VARCHAR2(80)
+  CTX   OWNER                           VARCHAR2(4000)
+  BASE  DATA_SOURCE_STATUS              VARCHAR2(1)
+  BASE  START_DATE                      VARCHAR2(11)
+  BASE  END_DATE                        VARCHAR2(11)
+  BASE  OBJECT_VERSION_NUMBER           NUMBER(22)
+  BASE  LAST_UPDATE_DATE                VARCHAR2(11)
+  BASE  ATTRIBUTE_CATEGORY              VARCHAR2(90)
+  BASE  ATTRIBUTE1                      VARCHAR2(450)
+  BASE  ATTRIBUTE2                      VARCHAR2(450)
+  BASE  ATTRIBUTE3                      VARCHAR2(450)
+  BASE  ATTRIBUTE4                      VARCHAR2(450)
+  BASE  ATTRIBUTE5                      VARCHAR2(450)
+  BASE  ATTRIBUTE6                      VARCHAR2(450)
+  BASE  ATTRIBUTE7                      VARCHAR2(450)
+  BASE  ATTRIBUTE8                      VARCHAR2(450)
+  BASE  ATTRIBUTE9                      VARCHAR2(450)
+  BASE  ATTRIBUTE10                     VARCHAR2(450)
+  BASE  ATTRIBUTE11                     VARCHAR2(450)
+  BASE  ATTRIBUTE12                     VARCHAR2(450)
+  BASE  ATTRIBUTE13                     VARCHAR2(450)
+  BASE  ATTRIBUTE14                     VARCHAR2(450)
+  BASE  ATTRIBUTE15                     VARCHAR2(450)
+  TRANS DATA_SOURCE_NAME                VARCHAR2(120)
+  TRANS DESCRIPTION                     VARCHAR2(2000)
+
+  DEFINE X_TEMPLATES
+    KEY   TMPL_APP_SHORT_NAME             VARCHAR2(50)
+    KEY   TEMPLATE_CODE                   VARCHAR2(80)
+    CTX   OWNER                           VARCHAR2(4000)
+    BASE  TEMPLATE_TYPE_CODE              VARCHAR2(30)
+    BASE  DEFAULT_LANGUAGE                VARCHAR2(6)
+    BASE  DEFAULT_TERRITORY               VARCHAR2(6)
+    BASE  DEFAULT_OUTPUT_TYPE             VARCHAR2(10)
+    BASE  MLS_LANGUAGE                    VARCHAR2(6)
+    BASE  MLS_TERRITORY                   VARCHAR2(6)
+    BASE  TEMPLATE_STATUS                 VARCHAR2(6)
+    BASE  USE_ALIAS_TABLE                 VARCHAR2(6)
+    BASE  DEPENDENCY_FLAG                 VARCHAR2(1)
+    BASE  START_DATE                      VARCHAR2(11)
+    BASE  END_DATE                        VARCHAR2(11)
+    BASE  OBJECT_VERSION_NUMBER           NUMBER(22)
+    BASE  LAST_UPDATE_DATE                VARCHAR2(11)
+    BASE  ATTRIBUTE_CATEGORY              VARCHAR2(100)
+    BASE  ATTRIBUTE1                      VARCHAR2(450)
+    BASE  ATTRIBUTE2                      VARCHAR2(450)
+    BASE  ATTRIBUTE3                      VARCHAR2(450)
+    BASE  ATTRIBUTE4                      VARCHAR2(450)
+    BASE  ATTRIBUTE5                      VARCHAR2(450)
+    BASE  ATTRIBUTE6                      VARCHAR2(450)
+    BASE  ATTRIBUTE7                      VARCHAR2(450)
+    BASE  ATTRIBUTE8                      VARCHAR2(450)
+    BASE  ATTRIBUTE9                      VARCHAR2(450)
+    BASE  ATTRIBUTE10                     VARCHAR2(450)
+    BASE  ATTRIBUTE11                     VARCHAR2(450)
+    BASE  ATTRIBUTE12                     VARCHAR2(450)
+    BASE  ATTRIBUTE13                     VARCHAR2(450)
+    BASE  ATTRIBUTE14                     VARCHAR2(450)
+    BASE  ATTRIBUTE15                     VARCHAR2(450)
+    TRANS TEMPLATE_NAME                   VARCHAR2(120)
+    TRANS DESCRIPTION                     VARCHAR2(2000)
+
+    DEFINE X_TEMPLATE_FIELDS
+      KEY   FIELD_NAME                      VARCHAR2(255)
+      CTX   OWNER                           VARCHAR2(4000)
+      BASE  ALIAS_NAME                      VARCHAR2(255)
+      BASE  LAST_UPDATE_DATE                VARCHAR2(11)
+    END X_TEMPLATE_FIELDS
+  END X_TEMPLATES
+END XDO_DS_DEFINITIONS
+
+# -- End Entity Definitions -- 
+
+
+BEGIN XDO_DS_DEFINITIONS "TGCUST" "XXTG_PNL_PRINT"
+  OWNER = "TG178627"
+  DATA_SOURCE_STATUS = "E"
+  START_DATE = "2017/08/21"
+  OBJECT_VERSION_NUMBER = "1"
+  LAST_UPDATE_DATE = "2017/08/21"
+  DATA_SOURCE_NAME = "XXTG_PNL_PRINT"
+
+  BEGIN X_TEMPLATES "TGCUST" "XXTG_PNL_PRINT"
+    OWNER = "TG178627"
+    TEMPLATE_TYPE_CODE = "RTF"
+    DEFAULT_LANGUAGE = "en"
+    DEFAULT_TERRITORY = "00"
+    DEFAULT_OUTPUT_TYPE = "EXCEL"
+    TEMPLATE_STATUS = "E"
+    USE_ALIAS_TABLE = "N"
+    DEPENDENCY_FLAG = "P"
+    START_DATE = "2017/08/21"
+    OBJECT_VERSION_NUMBER = "1"
+    LAST_UPDATE_DATE = "2017/08/21"
+    TEMPLATE_NAME = "XXTG_PNL_PRINT"
+  
+  END X_TEMPLATES
+  
+END XDO_DS_DEFINITIONS
+

@@ -1,0 +1,102 @@
+
+--FNDLOAD apps/apps O Y DOWNLOAD $FND_TOP/patch/115/import/afcpprog.lct XXTG_VALIDATE_CP.ldt PROGRAM APPLICATION_SHORT_NAME="TGCUST" CONCURRENT_PROGRAM_NAME="XXTG_VALIDATE_CONTRACT_BATCH"
+
+--FNDLOAD apps/apps O Y DOWNLOAD $FND_TOP/patch/115/import/afcpprog.lct 105_XXTG_DELETE_ORPHAN_CP.ldt PROGRAM APPLICATION_SHORT_NAME="TGCUST" CONCURRENT_PROGRAM_NAME="XXTG_CA_DELETE_ORPHAN_RECORDS"
+
+--FNDLOAD apps/apps O Y DOWNLOAD $FND_TOP/patch/115/import/afcpprog.lct XXTG_CONTRACT_AUDIT_CP.ldt PROGRAM APPLICATION_SHORT_NAME="PER" CONCURRENT_PROGRAM_NAME="XXTG_CONTRACT_AUDIT"ls
+
+--FNDLOAD apps/$CLIENT_APPS_PWD O Y DOWNLOAD  $XDO_TOP/patch/115/import/xdotmpl.lct XXTG_CONTRACT_AUDIT_DD.ldt XDO_DS_DEFINITIONS APPLICATION_SHORT_NAME='PER' DATA_SOURCE_CODE='XXTG_CONTRACT_AUDIT' TMPL_APP_SHORT_NAME='PER' TEMPLATE_CODE='XXTG_CONTRACT_AUDIT'
+
+
+--0.  Concurrent Program LDT
+
+FNDLOAD apps/$appspwd  0 Y UPLOAD $FND_TOP/patch/115/import/afcpprog.lct 100_XXTG_VALIDATE_CP.ldt - WARNING=YES UPLOAD_MODE=REPLACE CUSTOM_MODE=FORCE
+
+FNDLOAD apps/$appspwd  0 Y UPLOAD $FND_TOP/patch/115/import/afcpprog.lct 80_XXTG_CONTRACT_AUDIT_CP.ldt - WARNING=YES UPLOAD_MODE=REPLACE CUSTOM_MODE=FORCE
+
+FNDLOAD apps/$appspwd O Y UPLOAD $FND_TOP/patch/115/import/afcpprog.lct 105_XXTG_DELETE_ORPHAN_CP.ldt
+
+FNDLOAD apps/$appspwd  O Y UPLOAD $XDO_TOP/patch/115/import/xdotmpl.lct 90_XXTG_CONTRACT_AUDIT_DD.ldt
+
+FNDLOAD apps/$appspwd  O Y UPLOAD $XDO_TOP/patch/115/import/xdotmpl.lct 70_XXTG_OAF_PRINT_DD_TEMPLATE.ldt
+
+--1. Transaction Types
+
+FNDLOAD apps/$appspwd  0 Y UPLOAD $AME_TOP/patch/115/import/amescvar.lct 110_XXTGCA_TRANSACTION_TYPE_AME.ldt
+
+--2. Attribute
+
+FNDLOAD apps/$appspwd 0 Y UPLOAD $AME_TOP/patch/115/import/amesmatt.lct 120_XXTGCA_ATTRIBUTE_AME.ldt
+
+
+--4. Dynamic Approval group /Approver Groups:
+
+
+FNDLOAD apps/$appspwd 0 Y UPLOAD $AME_TOP/patch/115/import/amesappg.lct 140_XXTGCA_APPR_GRP_AME.ldt
+FNDLOAD apps/$appspwd 0 Y UPLOAD $AME_TOP/patch/115/import/amesappg.lct 141_XXTGCA_APPR_GRP_AME.ldt
+FNDLOAD apps/$appspwd 0 Y UPLOAD $AME_TOP/patch/115/import/amesappg.lct 143_XXTGCA_APPR_GRP_AME.ldt
+XXTG_FYI_ESS_APPROVED_NOTIFICATION
+
+XXTG_CA_FINANCE_APPROVER
+
+
+--5. Dynamic Approval group config:
+
+FNDLOAD apps/$appspwd 0 Y UPLOAD $AME_TOP/patch/115/import/amesaagc.lct 150_XXTGCA_APPR_GRP_USAGE_AME.ldt
+
+--6. Condition:
+
+FNDLOAD apps/$appspwd 0 Y UPLOAD $AME_TOP/patch/115/import/amesconk.lct 160_XXTGCA_COND_AME.ldt
+
+--7. AME Rule:
+
+FNDLOAD apps/$appspwd 0 Y UPLOAD $AME_TOP/patch/115/import/amesrulk.lct 170_XXTGCA_RULE_AME.ldt
+
+--8. AME Rule Action Type Usage:
+
+FNDLOAD apps/$appspwd 0 Y UPLOAD $AME_TOP/patch/115/import/amesactu.lct  180_XXTGCA_RULE_USAGE_AME.ldt
+
+--9. Menu
+
+
+$FND_TOP/bin/FNDLOAD apps/$CLIENT_APPS_PWD O Y UPLOAD $FND_TOP/patch/115/import/afsload.lct 190_XXTG_DEPLOYMENT_CREATOR_MENU.ldt
+
+
+--10  Request Group
+
+--FNDLOAD apps/apps O Y DOWNLOAD $FND_TOP/patch/115/import/afcpreqg.lct 200_REPORT_GROUP_NAME.ldt REQUEST_GROUP REQUEST_GROUP_NAME="XXTG_CONTRACTS_REPORTS" APPLICATION_SHORT_NAME="TGCUST"
+--FNDLOAD apps/apps O Y DOWNLOAD $FND_TOP/patch/115/import/afcpreqg.lct 201_REPORT_GROUP_NAME.ldt REQUEST_GROUP REQUEST_GROUP_NAME="TG Scheduled Programs" APPLICATION_SHORT_NAME="PER"
+
+FNDLOAD apps/$appspwd O Y UPLOAD $FND_TOP/patch/115/import/afcpreqg.lct 200_REPORT_GROUP_NAME.ldt
+FNDLOAD apps/$appspwd O Y UPLOAD $FND_TOP/patch/115/import/afcpreqg.lct 201_REPORT_GROUP_NAME.ldt
+
+--11 Responsibility 
+
+--FNDLOAD apps/apps O Y DOWNLOAD $FND_TOP/patch/115/import/afscursp.lct 210_RESPONSIBILITY.ldt FND_RESPONSIBILITY RESP_KEY="XXTG_DEPLOYMENT_AVIATION"
+--FNDLOAD apps/apps O Y DOWNLOAD $FND_TOP/patch/115/import/afscursp.lct 211_RESPONSIBILITY.ldt FND_RESPONSIBILITY RESP_KEY="XXTG_DEPLOYMENT"
+## note that XX_PERSON_RESPY is the responsibility key
+## Now to upload
+FNDLOAD apps/$appspwd O Y UPLOAD $FND_TOP/patch/115/import/afscursp.lct 210_RESPONSIBILITY.ldt
+FNDLOAD apps/$appspwd O Y UPLOAD $FND_TOP/patch/115/import/afscursp.lct 211_RESPONSIBILITY.ldt
+
+--12  Message
+--FNDLOAD apps/$CLIENT_APPS_PWD 0 Y DOWNLOAD $FND_TOP/patch/115/import/afmdmsg.lct 220_MESSAGE.ldt FND_NEW_MESSAGES APPLICATION_SHORT_NAME="TGCUST" 
+
+FNDLOAD apps/$appspwd 0 Y UPLOAD $FND_TOP/patch/115/import/afmdmsg.lct 220_MESSAGE.ldt
+
+--13 Profile
+
+--FNDLOAD apps/apps O Y DOWNLOAD $FND_TOP/patch/115/import/afscprof.lct 230_PROFILES.ldt PROFILE  APPLICATION_SHORT_NAME="TGCUST"
+
+FNDLOAD apps/$appspwd O Y UPLOAD $FND_TOP/patch/115/import/afscprof.lct 230_PROFILES.ldt
+
+--14 Lookup
+
+--FNDLOAD apps/apps O Y DOWNLOAD $FND_TOP/patch/115/import/aflvmlu.lct 240_PROFILE_XXTG_DEP_MOD_NO_APPROVER_LKP.ldt FND_LOOKUP_TYPE APPLICATION_SHORT_NAME="TGCUST" LOOKUP_TYPE="XXTG_APPROVERS_NOT_IN_DEP_MOD"
+
+ 
+FNDLOAD apps/apps O Y UPLOAD $FND_TOP/patch/115/import/aflvmlu.lct 240_PROFILE_XXTG_DEP_MOD_NO_APPROVER_LKP.ldt UPLOAD_MODE=REPLACE CUSTOM_MODE=FORCE
+
+--15.User Responsibilities Upload
+
+FNDLOAD apps/apps 0 Y UPLOAD $FND_TOP/patch/115/import/afscursp.lct  SYSADMIN_USER.ldt  FND_USER

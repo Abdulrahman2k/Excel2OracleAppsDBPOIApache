@@ -1,0 +1,76 @@
+Migration Of Workflow  
+
+Copy the Workflow to $APPL_TOP/tgcust/12.0.0/patch/115/import/XXTGCA.wft
+
+execute following in sqlplus 
+
+sql>WFLOAD apps/$appspwd@PROD 0 Y FORCE $APPL_TOP/tgcust/12.0.0/patch/115/import/XXTGCA.wft
+
+run following in SQL to delete existing pages
+
+
+DECLARE
+BEGIN
+jdr_utils.deletedocument(p_document => '/oracle/apps/tgcust/xxtgca/webui/CAQueryPG');
+END;
+
+
+DECLARE
+BEGIN
+jdr_utils.deletedocument(p_document => '/oracle/apps/tgcust/xxtgca/webui/ImportxlsPG');
+END;
+
+
+DECLARE
+BEGIN
+jdr_utils.deletedocument(p_document => '/oracle/apps/tgcust/ca/webui/ContractsSearchPG');
+END;
+
+
+After Copying All the Files to TGCUST TOP
+
+please change the directory to server and webui and run the following java script
+
+javac *.java
+
+
+
+
+
+DECLARE
+
+BEGIN
+
+jdr_utils.printDocument('/oracle/apps/tgcust/xxtgca/webui/ImportxlsPG',1000);
+
+EXCEPTION
+
+WHEN OTHERS THEN
+
+DBMS_OUTPUT.PUT_LINE(SQLERRM);
+
+END;
+
+DECLARE
+
+BEGIN
+
+jdr_utils.printDocument('/oracle/apps/tgcust/xxtgca/webui/CAQueryPG',1000);
+
+EXCEPTION
+
+WHEN OTHERS THEN
+
+DBMS_OUTPUT.PUT_LINE(SQLERRM);
+
+END;
+
+
+java oracle.jrad.tools.xml.importer.XMLImporter /PRAPPS/PROD/apps/apps_st/comn/java/classes/oracle/apps/tgcust/xxtgca/webui/CAQueryPG.xml -username apps -password $pass -dbconnection "(DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=tghqodb-scan.transguard.ae)(PORT=1521))(CONNECT_DATA=(SID=PROD)))" -rootdir $JAVA_TOP
+
+java oracle.jrad.tools.xml.importer.XMLImporter /PRAPPS/PROD/apps/apps_st/comn/java/classes/oracle/apps/tgcust/xxtgca/webui/ImportxlsPG.xml -username apps -password $pass -dbconnection "(DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=tghqodb-scan.transguard.ae)(PORT=1521))(CONNECT_DATA=(SID=PROD)))" -rootdir $JAVA_TOP
+
+java oracle.jrad.tools.xml.importer.XMLImporter /PRAPPS/PROD/apps/apps_st/comn/java/classes/oracle/apps/tgcust/xxtgca/webui/posLOVRN.xml -username apps -password $pass -dbconnection "(DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=tghqodb-scan.transguard.ae)(PORT=1521))(CONNECT_DATA=(SID=PROD)))" -rootdir $JAVA_TOP
+
+java oracle.jrad.tools.xml.importer.XMLImporter /PRAPPS/PROD/apps/apps_st/comn/java/classes/oracle/apps/tgcust/ca/webui/ContractsSearchPG.xml -username apps -password $pass -dbconnection "(DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=tghqodb-scan.transguard.ae)(PORT=1521))(CONNECT_DATA=(SID=PROD)))" -rootdir $JAVA_TOP
+
